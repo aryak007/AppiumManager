@@ -1,0 +1,12 @@
+.classpath
+.gradle/
+.project
+.settings/
+bin/
+app/
+gradlew.bat
+log/
+build/
+AppiumManagerSample/
+ports.properties
+testng.xml

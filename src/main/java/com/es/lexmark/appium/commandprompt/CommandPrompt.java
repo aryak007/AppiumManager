@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CommandPrompt {
 	
@@ -53,18 +52,6 @@ public class CommandPrompt {
 
 	    }
 
-	    public String runCommandThruProcessBuilder(String command)
-	        throws InterruptedException, IOException {
-	        BufferedReader br = getBufferedReader(command);
-	        String line;
-	        String allLine = "";
-	        while ((line = br.readLine()) != null) {
-	            allLine = allLine + "" + line + "\n";
-	            System.out.println(allLine);
-	        }
-	        return allLine.split(":")[1].replace("\n", "").trim();
-	    }
-
 	    public String runProcessCommandToGetDeviceID(String command)
 	        throws InterruptedException, IOException {
 	        BufferedReader br = getBufferedReader(command);
@@ -88,5 +75,16 @@ public class CommandPrompt {
 	        InputStreamReader isr = new InputStreamReader(is);
 	        return new BufferedReader(isr);
 	    }
+	    public String runCommandThruProcessBuilder(String command)
+	            throws InterruptedException, IOException {
+	            BufferedReader br = getBufferedReader(command);
+	            String line;
+	            String allLine = "";
+	            while ((line = br.readLine()) != null) {
+	                allLine = allLine + "" + line + "\n";
+	                System.out.println(allLine);
+	            }
+	            return allLine.split(":")[1].replace("\n", "").trim();
+	        }
 }
 

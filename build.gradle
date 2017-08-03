@@ -1,28 +1,35 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-group='com.perceptivesoftware.mobile.systemtest'
-version='0.1.0'
+version = '1.0'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
-repositories {
-	maven {
-		url "http://devrepositoryd00.pvi.com:8181/content/Perceptive_Internal"
-	}
-	maven {
-		url 'http://devrepositoryd00.pvi.com:8181/content/FOSS'
-	}
-	jcenter()
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'AppiumManager jar',
+        	'Implementation-Version': version,
+        	'Main-Class': 'com.es.lexmark.appium.manager.SpawnAppiumServers'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
+
+//Get dependencies from Maven central repository
+repositories {
+		maven {
+			url "http://devrepositoryd00.pvi.com:8181/content/Perceptive_Internal"
+		}
+		maven {
+			url 'http://devrepositoryd00.pvi.com:8181/content/FOSS'
+		}
+		jcenter()
+	}
+    
 
 dependencies {
-	compile(group: 'io.appium', name: 'java-client', version: '4.1.0')
-	
-}
-
-
-// ideviceinstaller -u "f1c8aea9fbecd08786648d97ba0df717347ddbaf" -i /Users/susovan/Documents/pswgit/susghosh/automob/app/PerceptiveExperience-Appstore.ipa
-// appium --command-timeout "7200" --port 4723 --default-capabilities '{"deviceName":"iPhone 6", "platformName":"iOS", "automationName":"Appium", "app":"app/PerceptiveExperience-devbuild.ipa", "udid": "f1c8aea9fbecd08786648d97ba0df717347ddbaf"}'
-//appium --command-timeout "7200" --port 4723 --default-capabilities '{"deviceName":"iPhone 6", "platformName":"iOS", "platformVersion":"9.3", "automationName":"Appium", "app":"app/Perceptive Experience.app"}'
-//appium --command-timeout "7200" --port 4725 --default-capabilities '{"deviceName":"Nexus_5X", "platformName":"Android", "platformVersion":"6.0", "automationName":"Appium", "app":"app/PerceptiveExperience.apk"}'
-//appium --command-timeout "7200" --port 4725 --default-capabilities '{"deviceName": "HTC One_M8", "platformName":"Android", "automationName":"Appium", "app":"app/PerceptiveExperience.apk", "udid": "HT44KWM04524"}'
-// appium --command-timeout "7200" --port 4725 --default-capabilities '{"deviceName": "htc_m8", "platformName":"Android", "automationName":"Appium", "app":"app/PerceptiveExperience.apk", "udid": "3204970dcf63125d"}'
+		compile group: 'io.appium', name: 'java-client', version: '4.1.0'
+		compile 'org.testng:testng:6.9.12'
+	}
